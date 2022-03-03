@@ -1,0 +1,4 @@
+function docker-attach () {
+  docker exec -it $1 bash
+}
+
