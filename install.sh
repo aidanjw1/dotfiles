@@ -2,6 +2,7 @@ if [[ "$SKIP_LINKS" != "true" ]]
 then
     # Link .config files to home directory
     ln -sf ~/.dotfiles/.zshrc ~/.zshrc
+    mkdir ~/.zsh
     ln -sf ~/.dotfiles/.zsh/* ~/.zsh
     touch ~/.zsh/variables
     ln -sf ~/.dotfiles/.vimrc ~/.vimrc
