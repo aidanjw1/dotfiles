@@ -8,6 +8,7 @@ then
     ln -sf ~/.dotfiles/.vimrc ~/.vimrc
     ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
     ln -sf ~/.dotfiles/.tmux.conf ~/.tmux.conf
+    ln -sf ~/.dotfiles/oh-my-zsh-themes/* ~/.oh-my-zsh/themes
 fi
 
 if [[ "$SKIP_BREW" != "true" ]]
