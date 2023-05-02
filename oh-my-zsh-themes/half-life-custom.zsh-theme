@@ -66,9 +66,9 @@ function steeef_precmd {
   # check for untracked files or updated submodules, since vcs_info doesn't
   if [[ -n "$(git ls-files --other --exclude-standard 2>/dev/null)" ]]; then
     PR_GIT_UPDATE=1
-    FMT_BRANCH="${PM_RST} on ${turquoise}%b%u%c${hotpink} ●${PR_RST}"
+    FMT_BRANCH="${PM_RST} ${turquoise} %b%u%c${hotpink} ●${PR_RST}"
   else
-    FMT_BRANCH="${PM_RST} on ${turquoise}%b%u%c${PR_RST}"
+    FMT_BRANCH="${PM_RST} ${turquoise} %b%u%c${PR_RST}"
   fi
   zstyle ':vcs_info:*:prompt:*' formats       "${FMT_BRANCH}"
 
@@ -90,4 +90,4 @@ ZSH_THEME_RUBY_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_RVM_PROMPT_OPTIONS="v g"
 
 setopt prompt_subst
-PROMPT="${purple}%n%{$reset_color%} in ${limegreen}%(4~|.../%3~|%~)%{$reset_color%}\$(ruby_prompt_info)\$vcs_info_msg_0_${orange} λ%{$reset_color%} "
+PROMPT="${purple} %n%{$reset_color%}${limegreen}  %(4~|.../%3~|%~)%{$reset_color%}\$(ruby_prompt_info)\$vcs_info_msg_0_${orange}  %{$reset_color%} "
