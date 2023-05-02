@@ -10,7 +10,6 @@ alias "gf"="git fetch"
 alias "gcm"="git commit"
 
 alias "dk"="docker"
-alias "dsa"="docker stop $(docker ps -q)"
 alias "da"="docker-attach"
 alias "dc"="docker-compose"
 
