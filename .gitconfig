@@ -1,7 +1,0 @@
-[user]
-	name = Aidan White
-	email = aidan.white36@gmail.com
-[pull]
-	rebase = false
-[core]
-	autocrlf = input

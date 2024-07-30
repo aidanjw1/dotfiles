@@ -1,10 +1,4 @@
-# Start tmux by default
-#if [ -z "$TMUX" ]
-#then
-#    tmux
-#fi
-
-export EDITOR=vim
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -16,7 +10,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="half-life-custom"
+# ZSH_THEME="fino"
+# ZSH_THEME="gnzh"
+ZSH_THEME="intheloop"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -73,12 +69,14 @@ ZSH_THEME="half-life-custom"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+export FZF_BASE=/opt/homebrew/bin/fzf
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker)
+plugins=(git tmux fzf direnv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,21 +106,88 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# CUSTOM CONFIG --------------------------------------------------
-source ~/.zsh/aliases
-source ~/.zsh/functions
-source ~/.zsh/variables
 
-export PATH="/usr/local/opt/node@16/bin:$PATH"
+# My config
 
-# NVM config
+# enable vim navigation in the terminal
+set -o vi
+
+# nvim config
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# go config:
+export PATH="/opt/homebrew/opt/go@1.21/bin:$PATH"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
-# NVM config for M1
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# yarn config
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+alias c="clear"
+alias reload="source ~/.zshrc"
+alias dk="docker"
+alias lg="lazygit"
+
+export PAGER=bat
+export EDITOR=nvim
+
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# fzf setup
+export FZF_DEFAULT_OPTS='--layout=reverse'
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+--color=fg:#c0caf5,bg:-1,hl:#ff9e64 \
+--color=fg+:#c0caf5,bg+:-1,hl+:#ff9e64 \
+--color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
+--color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
+
+# Nix setup
+source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+
+# psql setup
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# mysql client setup
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+# lazygit setup
+export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/tokyonight_night.conf"
+
+# Android setup
+export ANDROID_HOME="/Users/aidanwhite/Library/Android/sdk"
+export JAVA_HOME="/Users/aidanwhite/Applications/Android Studip.app/Contents/jbr/Contents/Home"
+export PATH="$HOME/bin:$PATH"
+
+# Java setup
+# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+# ---- docker fzf---
+
+_fzf_complete_docker() {
+    if [[ $1 == 'docker run'* ]]; then
+        _fzf_complete --header-lines=1 --multi --reverse -- "$@" < <(
+            docker images --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"
+        )
+    else 
+        _fzf_complete --header-lines=1 --multi --reverse -- "$@" < <(
+            docker ps -a
+        )
+    fi
+}
+
+_fzf_complete_dk() {
+    _fzf_complete_docker "$@"
+}
+
+_fzf_complete_docker_post() {
+    awk '{print $1}'
+}
+
+_fzf_complete_git() {
+    _fzf_complete --reverse -- "$@" < <(
+        git branch --all 
+    )
+}
