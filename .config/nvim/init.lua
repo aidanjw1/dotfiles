@@ -108,6 +108,7 @@ require('lazy').setup({
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
         icons_enabled = false,
@@ -179,7 +180,7 @@ require('lazy').setup({
     'stevearc/dressing.nvim',
     opts = {},
   },
-  'github/copilot.vim',
+  -- 'github/copilot.vim',
 }, {})
 
 -- [[ Setting options ]]
@@ -239,6 +240,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 require('telescope').setup {
   defaults = {
+    layout_config = {
+      height = 0.75,
+      prompt_position = 'top',
+    },
+    sorting_strategy = 'ascending',
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -386,6 +392,8 @@ local servers = {
   },
   tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+  emmet_language_server = {},
 
   lua_ls = {
     Lua = {

@@ -12,7 +12,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="fino"
 # ZSH_THEME="gnzh"
-ZSH_THEME="intheloop"
+# ZSH_THEME="intheloop"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -112,19 +112,6 @@ source $ZSH/oh-my-zsh.sh
 # enable vim navigation in the terminal
 set -o vi
 
-# nvim config
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# go config:
-export PATH="/opt/homebrew/opt/go@1.21/bin:$PATH"
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
-# yarn config
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 alias c="clear"
 alias reload="source ~/.zshrc"
 alias dk="docker"
@@ -136,6 +123,7 @@ export EDITOR=nvim
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # fzf setup
+source <(fzf --zsh)
 export FZF_DEFAULT_OPTS='--layout=reverse'
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=fg:#c0caf5,bg:-1,hl:#ff9e64 \
@@ -166,28 +154,13 @@ export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
 # ---- docker fzf---
 
-_fzf_complete_docker() {
-    if [[ $1 == 'docker run'* ]]; then
-        _fzf_complete --header-lines=1 --multi --reverse -- "$@" < <(
-            docker images --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"
-        )
-    else 
-        _fzf_complete --header-lines=1 --multi --reverse -- "$@" < <(
-            docker ps -a
-        )
-    fi
-}
 
-_fzf_complete_dk() {
-    _fzf_complete_docker "$@"
-}
+# starship setup
+#
+# Check that the function `starship_zle-keymap-select()` is defined.
+# xref: https://github.com/starship/starship/issues/3418
+type starship_zle-keymap-select >/dev/null || \
+  {
+    eval "$(starship init zsh)"
+  }
 
-_fzf_complete_docker_post() {
-    awk '{print $1}'
-}
-
-_fzf_complete_git() {
-    _fzf_complete --reverse -- "$@" < <(
-        git branch --all 
-    )
-}

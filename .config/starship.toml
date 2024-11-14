@@ -1,0 +1,55 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_metrics\
+$docker_context\
+$fill\
+$cmd_duration\
+$golang\
+$nodejs\
+$rust\
+$terraform\
+$nix_shell\
+$aws\
+$direnv\
+$env_var\
+$sudo\
+$os\
+$container\
+$line_break\
+$character"""
+
+
+[directory]
+truncate_to_repo = false
+format = '[ $path]($style)[$read_only]($read_only_style) '
+truncation_symbol = '…/'
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+symbol = " "
+
+[git_metrics]
+disabled = false
+
+# Note: For symbols, see https://starship.rs/presets/nerd-font
+[golang]
+format = '[$symbol($version )]($style)'
+symbol = " "
+
+[rust]
+format = '[$symbol($version )]($style)'
+symbol = "󱘗 "
+
+[nodejs]
+format = '[$symbol($version )]($style)'
+symbol = " "
+
+[nix_shell]
+format = '[$symbol$state( \($name\))]($style)'
+symbol = " "
