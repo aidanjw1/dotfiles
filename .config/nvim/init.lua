@@ -262,6 +262,7 @@ require('telescope').setup {
       path = "%:p:h",
       -- depth = 4,
       respect_gitignore = true,
+      hidden = { file_browser = true, folder_browser = true },
     },
   },
 }
