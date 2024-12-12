@@ -28,10 +28,6 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
 
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
-
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
@@ -44,6 +40,7 @@ require('lazy').setup({
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
@@ -180,6 +177,17 @@ require('lazy').setup({
     'stevearc/dressing.nvim',
     opts = {},
   },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+    }
+  }
   -- 'github/copilot.vim',
 }, {})
 
@@ -379,6 +387,7 @@ require('mason-lspconfig').setup()
 local servers = {
   -- clangd = {},
   gopls = {},
+  golangci_lint_ls = {},
   templ = { filetypes = { 'templ' } },
   -- pyright = {},
   rust_analyzer = {
@@ -441,6 +450,7 @@ local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 local lspkind = require('lspkind')
 luasnip.config.setup {}
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup {
   snippet = {
