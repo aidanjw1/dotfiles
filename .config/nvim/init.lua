@@ -152,6 +152,7 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+      'nvim-telescope/telescope-live-grep-args.nvim',
     },
   },
 
@@ -273,6 +274,7 @@ require('telescope').setup {
   },
 }
 require("telescope").load_extension "file_browser"
+require("telescope").load_extension "live_grep_args"
 vim.cmd [[command! Ex :Telescope file_browser ]]
 
 -- Enable telescope fzf native, if installed
@@ -291,7 +293,8 @@ vim.keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuz
 
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sg', require('telescope').extensions.live_grep_args.live_grep_args,
+  { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sm', require('telescope.builtin').marks, { desc = '[S]earch by [M]ark' })
 
 vim.keymap.set('n', '<leader>p', require('telescope.builtin').registers, { desc = '[P]aste from Registers' })
@@ -367,11 +370,9 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
   gopls = {},
   golangci_lint_ls = {},
   templ = { filetypes = { 'templ' } },
-  -- pyright = {},
   rust_analyzer = {
     ["rust-analyzer"] = {
       rust = {
@@ -382,11 +383,11 @@ local servers = {
       },
     }
   },
-  tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
+  ts_ls = {},
+  eslint = {},
+  jsonls = {},
+  yamlls = {},
   emmet_language_server = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -443,6 +444,7 @@ cmp.setup {
   completion = {
     completeopt = 'menu,menuone,noinsert',
   },
+  preselect = cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
