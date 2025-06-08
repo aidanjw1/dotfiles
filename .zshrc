@@ -125,11 +125,13 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # fzf setup
 source <(fzf --zsh)
 export FZF_DEFAULT_OPTS='--layout=reverse'
+
+# fzf color scheme for "terafox"
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
---color=fg:#c0caf5,bg:-1,hl:#ff9e64 \
---color=fg+:#c0caf5,bg+:-1,hl+:#ff9e64 \
---color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
---color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
+--color=fg:#eaeeee,bg:#152528,hl:#fda47f \
+--color=fg+:#ebebeb,bg+:#293e40,hl+:#ff8349 \
+--color=info:#5a93aa,prompt:#6d7f8b,pointer:#ff8349 \
+--color=marker:#ff9664,spinner:#7aa4a1,header:#6d7f8b"
 
 # Nix setup
 source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh

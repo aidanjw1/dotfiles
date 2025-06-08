@@ -53,3 +53,6 @@ symbol = " "
 [nix_shell]
 format = '[$symbol$state( \($name\))]($style)'
 symbol = " "
+
+[fill]
+symbol = " "
